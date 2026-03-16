@@ -1,0 +1,21 @@
+{% extends "clinic/base.html" %}
+
+{% block title %}Add Visit – PetClinic{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Add Visit</h2>
+<form method="post" class="col-md-6">
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="mb-3">
+      {{ field.label_tag }}
+      {{ field }}
+      {% if field.errors %}
+        <div class="text-danger small">{{ field.errors }}</div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-success">Save</button>
+  <a href="{% url 'clinic:visit_list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+</form>
+{% endblock %}
