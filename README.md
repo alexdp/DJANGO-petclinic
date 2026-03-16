@@ -2,6 +2,8 @@
 
 Application Pet Clinic construite avec le framework Django.
 
+<img src="screenshots/petclinic-home.png">
+
 ## Prerequis
 
 - Python 3.10+ recommande
