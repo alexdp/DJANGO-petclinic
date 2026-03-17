@@ -4,7 +4,7 @@ import datetime
 
 from django.test import TestCase
 
-from clinic.models import Owner, Pet, Visit
+from clinic.models import Owner, Pet, Visit, Doctor
 
 
 class OwnerModelTest(TestCase):
@@ -69,10 +69,17 @@ class VisitModelTest(TestCase):
             type="cat",
             owner=owner,
         )
+        doctor = Doctor.objects.create(
+            first_name="Dr. John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            phone="555-0400",
+        )
         self.visit = Visit.objects.create(
             pet=pet,
             visit_date=datetime.date(2024, 3, 10),
             description="Annual check-up",
+            doctor=doctor,
         )
 
     def test_str(self):
@@ -81,3 +88,7 @@ class VisitModelTest(TestCase):
 
     def test_pet_relation(self):
         self.assertEqual(self.visit.pet.name, "Whiskers")
+
+    def test_doctor_relation(self):
+        self.assertEqual(self.visit.doctor.first_name, "Dr. John")
+        self.assertEqual(self.visit.doctor.last_name, "Doe")

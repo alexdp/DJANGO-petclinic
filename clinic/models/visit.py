@@ -3,6 +3,7 @@
 from django.db import models
 
 from clinic.models.pet import Pet
+from clinic.models.doctor import Doctor
 
 
 class Visit(models.Model):
@@ -16,9 +17,12 @@ class Visit(models.Model):
         Date of the visit.
     description : str
         Notes or description of the visit.
+    doctor : Doctor
+        The doctor who attended the visit.
     """
 
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="visits")
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name="visits", null=True, blank=True)
     visit_date = models.DateField()
     description = models.TextField()
 
@@ -26,4 +30,4 @@ class Visit(models.Model):
         ordering = ["-visit_date"]
 
     def __str__(self) -> str:
-        return f"Visit for {self.pet} on {self.visit_date}"
+        return f"Visit for {self.pet} on {self.visit_date} with {self.doctor}"

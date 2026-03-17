@@ -7,6 +7,7 @@ URL query parameters supplied by the user.
 import django_filters
 
 from clinic.models import Owner, Pet, Visit
+from clinic.models.doctor import Doctor
 
 
 class OwnerFilter(django_filters.FilterSet):
@@ -20,6 +21,20 @@ class OwnerFilter(django_filters.FilterSet):
     class Meta:
         model = Owner
         fields = ["last_name"]
+
+
+class DoctorFilter(django_filters.FilterSet):
+    """Filter doctors by last name (case-insensitive, partial match)."""
+
+    last_name = django_filters.CharFilter(
+        lookup_expr="icontains",
+        label="Last name",
+    )
+
+    class Meta:
+        model = Doctor
+        fields = ["last_name"]
+
 
 
 class PetFilter(django_filters.FilterSet):

@@ -3,6 +3,7 @@
 from django import forms
 
 from clinic.models import Owner, Pet, Visit
+from clinic.models.doctor import Doctor
 
 
 class OwnerForm(forms.ModelForm):
@@ -10,6 +11,20 @@ class OwnerForm(forms.ModelForm):
 
     class Meta:
         model = Owner
+        fields = ["first_name", "last_name", "email", "phone"]
+        widgets = {
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+        }
+
+
+class DoctorForm(forms.ModelForm):
+    """Form for creating / editing a :class:`~clinic.models.Doctor`."""
+
+    class Meta:
+        model = Doctor
         fields = ["first_name", "last_name", "email", "phone"]
         widgets = {
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
@@ -40,11 +55,12 @@ class VisitForm(forms.ModelForm):
 
     class Meta:
         model = Visit
-        fields = ["pet", "visit_date", "description"]
+        fields = ["pet", "visit_date", "description", "doctor"]
         widgets = {
             "pet": forms.Select(attrs={"class": "form-select"}),
             "visit_date": forms.DateInput(
                 attrs={"class": "form-control", "type": "date"}
             ),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+            "doctor": forms.Select(attrs={"class": "form-select"}),
         }

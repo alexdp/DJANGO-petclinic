@@ -1,0 +1,42 @@
+{% extends "clinic/base.html" %}
+{% load django_tables2 %}
+
+{% block title %}{{ doctor }} – PetClinic{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>{{ doctor }}</h2>
+  <a href="{% url 'clinic:doctor_list' %}" class="btn btn-outline-secondary">← Back</a>
+</div>
+
+<div class="row">
+  {# Edit form #}
+  <div class="col-md-5">
+    <h5>Edit Doctor</h5>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+  </div>
+
+  {# Visits table #}
+  <div class="col-md-7">
+    <h5 class="mb-3">Visits</h5>
+    {% if visits %}
+      {% render_table visits %}
+    {% else %}
+      <p class="text-muted">No visits found for this doctor.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

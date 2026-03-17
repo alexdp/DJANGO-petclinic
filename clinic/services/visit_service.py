@@ -3,6 +3,7 @@
 from django.db.models import QuerySet
 
 from clinic.models import Pet, Visit
+from clinic.models.doctor import Doctor
 from clinic.repositories import VisitRepo
 
 
@@ -29,6 +30,10 @@ class VisitService:
     def list_visits_for_pet(self, pet: Pet) -> QuerySet:
         """Return all visits for *pet*, most recent first."""
         return self.repo.get_by_pet(pet)
+    
+    def list_visits_for_doctor(self, doctor: Doctor) -> QuerySet:
+        """Return all visits attended by *doctor*, most recent first."""
+        return self.repo.get_by_doctor(doctor)
 
     def get_visit(self, visit_id: int) -> Visit:
         """Return the visit identified by *visit_id*."""

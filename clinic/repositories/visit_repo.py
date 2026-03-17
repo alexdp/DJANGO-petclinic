@@ -3,6 +3,7 @@
 from django.db.models import QuerySet
 
 from clinic.models import Pet, Visit
+from clinic.models.doctor import Doctor
 
 
 class VisitRepo:
@@ -28,6 +29,10 @@ class VisitRepo:
     def get_by_pet(self, pet: Pet) -> QuerySet:
         """Return all visits for *pet*, most recent first."""
         return Visit.objects.filter(pet=pet).select_related("pet", "pet__owner")
+    
+    def get_by_doctor(self, doctor: Doctor) -> QuerySet:
+        """Return all visits attended by *doctor*, most recent first."""
+        return Visit.objects.filter(doctor=doctor).select_related("pet", "pet__owner")
 
     def save(self, visit: Visit) -> Visit:
         """Persist *visit* to the database and return the saved instance."""

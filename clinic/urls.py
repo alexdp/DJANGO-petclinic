@@ -21,6 +21,10 @@ urlpatterns = [
     path("owners/", views.owner_list_view, name="owner_list"),
     path("owners/create/", views.owner_create_view, name="owner_create"),
     path("owners/<int:owner_id>/", views.owner_detail_view, name="owner_detail"),
+    # Doctor routes
+    path("doctors/", views.doctor_list_view, name="doctor_list"),
+    path("doctors/create/", views.doctor_create_view, name="doctor_create"),
+    path("doctors/<int:doctor_id>/", views.doctor_detail_view, name="doctor_detail"),
     # Pet routes
     path("pets/", views.pet_list_view, name="pet_list"),
     path("pets/create/", views.pet_create_view, name="pet_create"),
