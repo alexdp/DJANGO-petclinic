@@ -49,11 +49,8 @@ def visit_create_view(request):
 def visit_detail_view(request, visit_id: int):
     """Display the detail page for a single visit.
 
-    Also lists the visit's details and, on POST, handles visit updates.
+    On POST, updates the visit and redirects back to this page.
     """
-    from clinic.services import PetService
-    from clinic.tables import PetTable
-
     visit = get_object_or_404(_visit_service.list_visits(), pk=visit_id)
 
     if request.method == "POST":

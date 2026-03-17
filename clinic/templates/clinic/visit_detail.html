@@ -1,5 +1,4 @@
 {% extends "clinic/base.html" %}
-{% load django_tables2 %}
 
 {% block title %}{{ visit }} – PetClinic{% endblock %}
 
@@ -10,8 +9,7 @@
 </div>
 
 <div class="row">
-  {# Edit form #}
-  <div class="col-md-5">
+  <div class="col-md-6">
     <h5>Edit Visit</h5>
     <form method="post">
       {% csrf_token %}
@@ -27,16 +25,5 @@
       <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </div>
-
-  {# Visits table #}
-  <div class="col-md-7">
-    <h5 class="mb-3">Visits</h5>
-    {% if visits %}
-      {% render_table visits %}
-    {% else %}
-      <p class="text-muted">No visits found.</p>
-    {% endif %}
-  </div>
-
 </div>
 {% endblock %}

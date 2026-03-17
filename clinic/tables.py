@@ -65,11 +65,12 @@ class VisitTable(tables.Table):
     """Sortable table for :class:`~clinic.models.Visit` objects."""
 
     pet = tables.Column(accessor="pet", verbose_name="Pet")
+    detail = tables.Column(empty_values=(), orderable=False, verbose_name="")
 
     class Meta:
         model = Visit
         template_name = "django_tables2/bootstrap5.html"
-        fields = ["pet", "visit_date", "description", "details"]
+        fields = ["pet", "visit_date", "description", "detail"]
         attrs = {"class": "table table-striped table-hover"}
 
     def render_detail(self, record: Visit) -> str:
