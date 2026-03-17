@@ -4,7 +4,7 @@ Provides list and create views backed by VisitService.
 """
 
 import django_tables2 as tables
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from clinic.filters import VisitFilter
 from clinic.forms import VisitForm
@@ -45,3 +45,28 @@ def visit_create_view(request):
     else:
         form = VisitForm()
     return render(request, "clinic/visit_create.html", {"form": form})
+
+def visit_detail_view(request, visit_id: int):
+    """Display the detail page for a single visit.
+
+    Also lists the visit's details and, on POST, handles visit updates.
+    """
+    from clinic.services import PetService
+    from clinic.tables import PetTable
+
+    visit = get_object_or_404(_visit_service.list_visits(), pk=visit_id)
+
+    if request.method == "POST":
+        form = VisitForm(request.POST, instance=visit)
+        if form.is_valid():
+            form.save()
+            return redirect("clinic:visit_detail", visit_id=visit.pk)
+    else:
+        form = VisitForm(instance=visit)
+
+
+    return render(
+        request,
+        "clinic/visit_detail.html",
+        {"visit": visit, "form": form},
+    )

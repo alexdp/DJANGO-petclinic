@@ -69,5 +69,9 @@ class VisitTable(tables.Table):
     class Meta:
         model = Visit
         template_name = "django_tables2/bootstrap5.html"
-        fields = ["pet", "visit_date", "description"]
+        fields = ["pet", "visit_date", "description", "details"]
         attrs = {"class": "table table-striped table-hover"}
+
+    def render_detail(self, record: Visit) -> str:
+        url = reverse("clinic:visit_detail", args=[record.pk])
+        return format_html('<a href="{}" class="btn btn-sm btn-outline-primary">View</a>', url)
