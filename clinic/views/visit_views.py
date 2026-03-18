@@ -4,6 +4,7 @@ Provides list and create views backed by VisitService.
 """
 
 import django_tables2 as tables
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from clinic.filters import VisitFilter
@@ -67,3 +68,14 @@ def visit_detail_view(request, visit_id: int):
         "clinic/visit_detail.html",
         {"visit": visit, "form": form},
     )
+
+def visit_delete_view(request, visit_id: int):
+    """Delete a visit and redirect to the visit list."""
+    visit = get_object_or_404(_visit_service.list_visits(), pk=visit_id)
+    if request.method == "POST":
+        _visit_service.delete_visit(visit_id)
+        messages.success(request, "Visit deleted successfully.")
+        return redirect("clinic:visit_list")
+
+    messages.info(request, "Delete action requires a confirmation POST request.")
+    return redirect("clinic:visit_detail", visit_id=visit.pk)
