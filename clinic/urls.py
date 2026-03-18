@@ -32,5 +32,6 @@ urlpatterns = [
     path("visits/", views.visit_list_view, name="visit_list"),
     path("visits/create/", views.visit_create_view, name="visit_create"),
     path("visits/<int:visit_id>/", views.visit_detail_view, name="visit_detail"),
-    
+    path("visits/<int:visit_id>/delete/", views.visit_delete_view, name="visit_delete"),
+
 ]

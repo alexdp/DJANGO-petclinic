@@ -66,6 +66,16 @@ class VisitTable(tables.Table):
 
     pet = tables.Column(accessor="pet", verbose_name="Pet")
     detail = tables.Column(empty_values=(), orderable=False, verbose_name="")
+    delete = tables.TemplateColumn(
+        verbose_name="",
+        orderable=False,
+        template_code='''
+            <form method="post" action="{% url "clinic:visit_delete" record.pk %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+        ''',
+    )
 
     class Meta:
         model = Visit
@@ -76,7 +86,3 @@ class VisitTable(tables.Table):
     def render_detail(self, record: Visit) -> str:
         url = reverse("clinic:visit_detail", args=[record.pk])
         return format_html('<a href="{}" class="btn btn-sm btn-outline-primary">View</a>', url)
-    
-    def render_delete(self, record: Visit) -> str:
-        url = reverse("clinic:visit_delete", args=[record.pk])
-        return format_html('<a href="{}" class="btn btn-sm btn-outline-danger">Delete</a>', url)

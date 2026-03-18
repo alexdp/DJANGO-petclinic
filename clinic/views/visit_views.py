@@ -73,7 +73,7 @@ def visit_delete_view(request, visit_id: int):
     """Delete a visit and redirect to the visit list."""
     visit = get_object_or_404(_visit_service.list_visits(), pk=visit_id)
     if request.method == "POST":
-        _visit_service.delete_visit(visit_id)
+        _visit_service.delete_visit(visit)
         messages.success(request, "Visit deleted successfully.")
         return redirect("clinic:visit_list")
 

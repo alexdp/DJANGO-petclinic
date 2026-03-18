@@ -149,3 +149,14 @@ class VisitViewTest(TestCase):
         )
         self.assertRedirects(response, reverse("clinic:visit_list"))
         self.assertTrue(Visit.objects.filter(description="Annual shots").exists())
+
+    def test_visit_list_contains_delete_button(self):
+        response = self.client.get(reverse("clinic:visit_list"))
+        delete_url = reverse("clinic:visit_delete", args=[self.visit.pk])
+        self.assertContains(response, f'action="{delete_url}"')
+        self.assertContains(response, "Delete")
+
+    def test_visit_delete_post_redirects_and_deletes(self):
+        response = self.client.post(reverse("clinic:visit_delete", args=[self.visit.pk]))
+        self.assertRedirects(response, reverse("clinic:visit_list"))
+        self.assertFalse(Visit.objects.filter(pk=self.visit.pk).exists())
